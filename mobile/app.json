@@ -1,0 +1,53 @@
+{
+  "expo": {
+    "name": "Scroll Guardian",
+    "slug": "scroll-guardian",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "scheme": "scrollguardian",
+    "splash": {
+      "backgroundColor": "#090d16",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "app.scrollguardian.mobile",
+      "infoPlist": {
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": ["scrollguardian"]
+          }
+        ]
+      }
+    },
+    "android": {
+      "package": "app.scrollguardian.mobile",
+      "adaptiveIcon": {
+        "backgroundColor": "#090d16"
+      },
+      "intentFilters": [
+        {
+          "action": "SEND",
+          "category": ["DEFAULT"],
+          "data": [
+            { "mimeType": "text/plain" }
+          ]
+        },
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            { "scheme": "https", "host": "*.instagram.com" },
+            { "scheme": "https", "host": "*.youtube.com" }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
