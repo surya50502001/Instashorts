@@ -1,0 +1,56 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: scrollguardian-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: scrollguardian
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_secure_password_2026!
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d scrollguardian"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: scrollguardian-api
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - DatabaseProvider=PostgreSql
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=scrollguardian;Username=postgres;Password=postgres_secure_password_2026!
+      - Jwt__SecretKey=ScrollGuardian_SuperSecretKey_ProductionGrade_2026_Minimum32Characters!
+      - Jwt__Issuer=ScrollGuardianApi
+      - Jwt__Audience=ScrollGuardianClient
+      - Jwt__ExpiryMinutes=120
+      - AI__Provider=Auto
+      - AI__GeminiApiKey=${GEMINI_API_KEY:-}
+      - Stripe__SecretKey=${STRIPE_SECRET_KEY:-}
+      - Stripe__PublishableKey=${STRIPE_PUBLISHABLE_KEY:-}
+    ports:
+      - "5000:5000"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: scrollguardian-frontend
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - "80:80"
+
+volumes:
+  postgres_data:

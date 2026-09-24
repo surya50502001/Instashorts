@@ -1,0 +1,201 @@
+/* Scroll Guardian - Floating HUD & Intervention Modal Styling */
+
+#scroll-guardian-hud {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999999;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.sg-hud-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(9, 13, 22, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  padding: 8px 14px;
+  border-radius: 9999px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+  color: #f8fafc;
+}
+
+.sg-hud-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10b981;
+  box-shadow: 0 0 8px #10b981;
+}
+
+.sg-hud-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #cbd5e1;
+}
+
+.sg-hud-action-btn {
+  background: #3b82f6;
+  color: #ffffff;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.sg-hud-action-btn:hover {
+  background: #2563eb;
+}
+
+/* Modal */
+.sg-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(4, 7, 13, 0.75);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  animation: sg-fade-in 0.2s ease-out;
+}
+
+.sg-modal-card {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  width: 90%;
+  max-width: 480px;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+  color: #f8fafc;
+}
+
+.sg-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.sg-badge {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: #1e293b;
+  color: #94a3b8;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.sg-badge-green {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.sg-minutes, .sg-source {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.sg-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 10px 0;
+  color: #f1f5f9;
+  line-height: 1.35;
+}
+
+.sg-body {
+  font-size: 14px;
+  color: #94a3b8;
+  line-height: 1.5;
+  margin: 0 0 18px 0;
+}
+
+.sg-reason-box {
+  background: #131d33;
+  border-left: 3px solid #3b82f6;
+  padding: 12px 14px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: #cbd5e1;
+}
+
+.sg-reason-box strong {
+  color: #60a5fa;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.sg-reason-box p {
+  margin: 0;
+}
+
+.sg-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sg-primary-btn {
+  background: #3b82f6;
+  color: #ffffff;
+  border: none;
+  padding: 11px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sg-primary-btn:hover {
+  background: #2563eb;
+}
+
+.sg-secondary-btn {
+  background: #1e293b;
+  color: #e2e8f0;
+  border: 1px solid #334155;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.sg-secondary-btn:hover {
+  background: #334155;
+}
+
+.sg-ghost-btn {
+  background: transparent;
+  color: #64748b;
+  border: none;
+  padding: 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.sg-ghost-btn:hover {
+  color: #94a3b8;
+}
+
+@keyframes sg-fade-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}

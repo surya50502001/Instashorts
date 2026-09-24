@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scroll Guardian</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { width: 340px; background: #090d16; color: #f8fafc; padding: 18px; }
+    .header { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #1e293b; padding-bottom: 14px; margin-bottom: 16px; }
+    .logo-container { display: flex; align-items: center; gap: 8px; }
+    .shield-icon { width: 22px; height: 22px; background: #3b82f6; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; }
+    .title { font-size: 15px; font-weight: 600; color: #f1f5f9; }
+    .status-badge { font-size: 11px; padding: 3px 8px; border-radius: 12px; font-weight: 500; }
+    .status-active { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .status-offline { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .user-info { background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; margin-bottom: 16px; }
+    .user-email { font-size: 13px; font-weight: 500; color: #cbd5e1; }
+    .user-desc { font-size: 11px; color: #64748b; margin-top: 2px; }
+    .control-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; font-size: 13px; color: #94a3b8; }
+    .toggle { position: relative; display: inline-block; width: 36px; height: 20px; }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #334155; border-radius: 20px; transition: .2s; }
+    .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: .2s; }
+    input:checked + .slider { background-color: #3b82f6; }
+    input:checked + .slider:before { transform: translateX(16px); }
+    .actions { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+    .btn-primary { background: #3b82f6; color: white; border: none; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; width: 100%; text-align: center; }
+    .btn-primary:hover { background: #2563eb; }
+    .btn-secondary { background: #1e293b; color: #cbd5e1; border: 1px solid #334155; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 500; cursor: pointer; width: 100%; text-align: center; }
+    .btn-secondary:hover { background: #334155; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo-container">
+      <div class="shield-icon">🛡️</div>
+      <div class="title">Scroll Guardian</div>
+    </div>
+    <span id="status-badge" class="status-badge status-active">Active</span>
+  </div>
+
+  <div class="user-info">
+    <div id="user-display" class="user-email">Connecting...</div>
+    <div class="user-desc">Telemetry active on Reels & Shorts</div>
+  </div>
+
+  <div class="control-row">
+    <span>Active Content Tracking</span>
+    <label class="toggle">
+      <input type="checkbox" id="toggle-tracking" checked>
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="control-row">
+    <span>Real-Time Interventions</span>
+    <label class="toggle">
+      <input type="checkbox" id="toggle-interventions" checked>
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="actions">
+    <button id="btn-useful" class="btn-primary">Find Something Useful Now</button>
+    <button id="btn-dashboard" class="btn-secondary">Open Full SaaS Dashboard ↗</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "Scroll Guardian",
+  "version": "1.0.0",
+  "description": "Analyze short-form content consumption and transform passive scrolling into intentional learning.",
+  "permissions": [
+    "storage",
+    "alarms",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "*://*.instagram.com/*",
+    "*://*.youtube.com/*",
+    "*://*.tiktok.com/*",
+    "http://localhost:5000/*",
+    "http://localhost:5173/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.instagram.com/*",
+        "*://*.youtube.com/*",
+        "*://*.tiktok.com/*"
+      ],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Scroll Guardian"
+  }
+}
