@@ -73,10 +73,8 @@ public class ContentController : ControllerBase
             .Include(ci => ci.Analysis)
             .FirstOrDefaultAsync(ci => ci.ContentHash == contentHash);
 
-        bool isNewContent = false;
         if (contentItem == null)
         {
-            isNewContent = true;
             contentItem = new ContentItem
             {
                 ContentHash = contentHash,

@@ -6,6 +6,9 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
+  StyleProp,
+  ViewStyle,
+  TextStyle,
 } from 'react-native';
 import { colors, spacing, typography } from '../styles/theme';
 import { KnowledgeCheckDetail, SubmitAnswerResult } from '../types';
@@ -101,8 +104,8 @@ export const QuickQuizModal: React.FC<QuickQuizModalProps> = ({
               const isCorrectOpt = result?.correctOptionIndex === idx;
               const isWrongSelected = isSelected && result && !result.isCorrect;
 
-              let cardStyle = styles.optionItem;
-              let textStyle = styles.optionText;
+              let cardStyle: StyleProp<ViewStyle> = styles.optionItem;
+              let textStyle: StyleProp<TextStyle> = styles.optionText;
 
               if (result && isCorrectOpt) {
                 cardStyle = [styles.optionItem, styles.optionCorrect];

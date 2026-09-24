@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StatusBar, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { AuthProvider, useAuth } from './context/AuthContext';
-import { DashboardScreen } from './screens/DashboardScreen';
-import { StreamShareScreen } from './screens/StreamShareScreen';
-import { KnowledgeMapScreen } from './screens/KnowledgeMapScreen';
-import { RecommendationsScreen } from './screens/RecommendationsScreen';
-import { ProfileSettingsScreen } from './screens/ProfileSettingsScreen';
-import { QuickQuizModal } from './components/QuickQuizModal';
-import { KnowledgeCheckDetail } from './types';
-import { colors, spacing, typography } from './styles/theme';
+import { AuthProvider, useAuth } from './src/context/AuthContext';
+import { DashboardScreen } from './src/screens/DashboardScreen';
+import { StreamShareScreen } from './src/screens/StreamShareScreen';
+import { KnowledgeMapScreen } from './src/screens/KnowledgeMapScreen';
+import { RecommendationsScreen } from './src/screens/RecommendationsScreen';
+import { ProfileSettingsScreen } from './src/screens/ProfileSettingsScreen';
+import { QuickQuizModal } from './src/components/QuickQuizModal';
+import { KnowledgeCheckDetail } from './src/types';
+import { colors, spacing, typography } from './src/styles/theme';
 import * as Linking from 'expo-linking';
-import { mobileApi } from './services/api';
+import { mobileApi } from './src/services/api';
 import {
   LayoutDashboard,
   Share2,

@@ -17,7 +17,9 @@
       "infoPlist": {
         "CFBundleURLTypes": [
           {
-            "CFBundleURLSchemes": ["scrollguardian"]
+            "CFBundleURLSchemes": [
+              "scrollguardian"
+            ]
           }
         ]
       }
@@ -30,24 +32,40 @@
       "intentFilters": [
         {
           "action": "SEND",
-          "category": ["DEFAULT"],
+          "category": [
+            "DEFAULT"
+          ],
           "data": [
-            { "mimeType": "text/plain" }
+            {
+              "mimeType": "text/plain"
+            }
           ]
         },
         {
           "action": "VIEW",
           "autoVerify": true,
           "data": [
-            { "scheme": "https", "host": "*.instagram.com" },
-            { "scheme": "https", "host": "*.youtube.com" }
+            {
+              "scheme": "https",
+              "host": "*.instagram.com"
+            },
+            {
+              "scheme": "https",
+              "host": "*.youtube.com"
+            }
           ],
-          "category": ["BROWSABLE", "DEFAULT"]
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
         }
       ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-asset"
+    ]
   }
 }
