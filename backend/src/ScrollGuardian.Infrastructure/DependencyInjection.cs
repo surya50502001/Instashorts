@@ -17,22 +17,74 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
         var dbProvider = configuration["DatabaseProvider"] ?? "Sqlite";
-        var connectionString = configuration.GetConnectionString("DefaultConnection") 
-            ?? (dbProvider.Equals("PostgreSql", StringComparison.OrdinalIgnoreCase)
-                ? "Host=localhost;Database=scrollguardian;Username=postgres;Password=postgres"
-                : "Data Source=scrollguardian.db");
+        var rawConnStr = configuration.GetConnectionString("DefaultConnection") 
+            ?? configuration["DATABASE_URL"] 
+            ?? configuration["ConnectionStrings:DefaultConnection"];
 
-        services.AddDbContext<ApplicationDbContext>(options =>
+        bool isPostgres = dbProvider.Equals("PostgreSql", StringComparison.OrdinalIgnoreCase) ||
+                          dbProvider.Equals("Postgres", StringComparison.OrdinalIgnoreCase) ||
+                          (!string.IsNullOrWhiteSpace(rawConnStr) && 
+                           (rawConnStr.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase) || 
+                            rawConnStr.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase) || 
+                            rawConnStr.Contains("Host=", StringComparison.OrdinalIgnoreCase)));
+
+        // If raw connection string is default SQLite ("Data Source="), do not treat as Postgres
+        if (isPostgres && !string.IsNullOrWhiteSpace(rawConnStr) && rawConnStr.StartsWith("Data Source=", StringComparison.OrdinalIgnoreCase))
         {
-            if (dbProvider.Equals("PostgreSql", StringComparison.OrdinalIgnoreCase))
+            isPostgres = false;
+        }
+
+        if (isPostgres)
+        {
+            string npgsqlConnStr;
+            if (string.IsNullOrWhiteSpace(rawConnStr))
             {
-                options.UseNpgsql(connectionString);
+                npgsqlConnStr = "Host=localhost;Database=scrollguardian;Username=postgres;Password=postgres";
+            }
+            else if (rawConnStr.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase) || 
+                     rawConnStr.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase))
+            {
+                try
+                {
+                    var uri = new Uri(rawConnStr);
+                    var userInfo = uri.UserInfo.Split(':');
+                    var builder = new Npgsql.NpgsqlConnectionStringBuilder
+                    {
+                        Host = uri.Host,
+                        Port = uri.Port > 0 ? uri.Port : 5432,
+                        Username = userInfo.Length > 0 ? Uri.UnescapeDataString(userInfo[0]) : "",
+                        Password = userInfo.Length > 1 ? Uri.UnescapeDataString(userInfo[1]) : "",
+                        Database = uri.AbsolutePath.TrimStart('/'),
+                        SslMode = Npgsql.SslMode.Prefer
+                    };
+                    npgsqlConnStr = builder.ConnectionString;
+                }
+                catch
+                {
+                    npgsqlConnStr = rawConnStr;
+                }
             }
             else
             {
-                options.UseSqlite(connectionString);
+                npgsqlConnStr = rawConnStr;
             }
-        });
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseNpgsql(npgsqlConnStr);
+            });
+        }
+        else
+        {
+            var sqliteConnStr = (!string.IsNullOrWhiteSpace(rawConnStr) && rawConnStr.StartsWith("Data Source=", StringComparison.OrdinalIgnoreCase))
+                ? rawConnStr
+                : "Data Source=scrollguardian.db";
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlite(sqliteConnStr);
+            });
+        }
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 

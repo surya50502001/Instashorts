@@ -111,19 +111,17 @@ var app = builder.Build();
 // Automatically ensure DB is created and taxonomy seeded
 using (var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    var dbProvider = builder.Configuration["DatabaseProvider"] ?? "Sqlite";
-
-    if (dbProvider.Equals("Sqlite", StringComparison.OrdinalIgnoreCase))
+    try
     {
+        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         dbContext.Database.EnsureCreated();
+        await DatabaseSeeder.SeedReferenceTaxonomyAsync(dbContext);
+        Log.Information("Database initialized and taxonomy seeded successfully.");
     }
-    else
+    catch (Exception ex)
     {
-        dbContext.Database.Migrate();
+        Log.Error(ex, "An error occurred while initializing or seeding the database.");
     }
-
-    await DatabaseSeeder.SeedReferenceTaxonomyAsync(dbContext);
 }
 
 // Middleware pipeline
